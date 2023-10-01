@@ -15,10 +15,23 @@ const commands = [
     description: 'Clear the terminal',
   },
   {
-    command: 'about',
+    command: 'yubi',
     description: 'Know more about me',
   },
+  {
+    command: 'github',
+    description: 'Visit my github profile',
+    url: 'https://github.com/yubi00',
+  },
+  {
+    command: 'linkedin',
+    description: 'Visit my linkedin profile',
+    url: 'https://www.linkedin.com/in/ubrajkhadka',
+  },
 ];
+
+term.writeln('Welcome to the Yubi Terminal');
+term.write('\r\n');
 
 term.writeln('   :::   :::      :::    :::       :::::::::       ::::::::::: ');
 term.writeln('  :+:   :+:      :+:    :+:       :+:    :+:          :+:      ');
@@ -45,6 +58,31 @@ function printAvailableComands() {
   });
 }
 
+function processCommands(command) {
+  switch (command) {
+    case 'help':
+      printAvailableComands();
+      break;
+    case 'clear':
+      term.clear();
+      break;
+    case 'yubi':
+      term.write('\r\n');
+      term.writeln('Hi, I am Yubi Khadka. I am a full stack developer.');
+      break;
+    case 'github':
+      window.open(commands.find((c) => c.command === 'github').url);
+      break;
+    case 'linkedin':
+      window.open(commands.find((c) => c.command === 'linkedin').url);
+      break;
+    default:
+      term.write('\r\n\n');
+      term.writeln('Command not found!');
+      term.write('Press help to see the available commands \r\n\n');
+  }
+}
+
 let cmd = '';
 
 term.onKey(({ key, domEvent }) => {
@@ -55,12 +93,7 @@ term.onKey(({ key, domEvent }) => {
     !domEvent.metaKey;
 
   if (domEvent.keyCode == 13) {
-    if (cmd == 'help') {
-      printAvailableComands();
-    }
-    if (cmd === 'clear') {
-      term.clear();
-    }
+    processCommands(cmd);
     cmd = '';
     term.prompt();
   } else if (domEvent.keyCode == 8) {
